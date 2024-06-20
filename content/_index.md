@@ -8,7 +8,7 @@
 [Linkedin](https://ca.linkedin.com/in/shuxinqiao) \\
 [Github](https://github.com/shuxinqiao)
 
-{{ profile_img(path="/ShuxinQiao.jpg", width=400, height=450, op="fit") }}
+{{ profile_img(path="/ShuxinQiao.JPG", width=400, height=450, op="fit") }}
 
 
 ## Current Role
