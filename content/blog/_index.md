@@ -6,4 +6,6 @@ sort_by = "date"
 page_template = "blog-page.html"
 +++
 
-> Some findings \ mistakes \ interests
+Some findings \ mistakes \ interests.
+
+Blog list:
