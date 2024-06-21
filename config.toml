@@ -1,6 +1,10 @@
 # The URL the site will be built for
 base_url = "https://shuxinqiao.github.io"
 
+# The site title and description; used in feeds by default.
+title = "Shuxin Qiao"
+description = "Shuxin's personal website."
+
 # External Template Theme
 theme = "anemone"
 
