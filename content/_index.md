@@ -26,7 +26,7 @@ University of Alberta, Edmonton, Alberta, Canada. 2018-2022.
 
 ## Publications
 - [Coupled Flow-Geomechanics Surrogate Model with Flexible Boundary Conditions for Geological CO2 Storage Using Fourier Neural Operator Based Gated Recurrent Network](https://doi.org/10.2118/223871-MS) \
-_**Shuxin Qiao** Walid Ben Saleh, Bo Zhang_ \
+_**Shuxin Qiao**, Walid Ben Saleh, Bo Zhang_ \
 _SPE RSC 2025 SPE Reservoir Simulation Conference_
 
 - [Smart Coupled Flow-Geomechanical Upscaling Technique for Oil Sands](https://onepetro.org/armaigs/proceedings/IGS24/IGS24/ARMA-IGS-2024-0516/632556) \
