@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+{{ section.content | safe }}
+
+{# -- Paper Reading Section -- #}
+{% set paper = get_section(path="blog/paper/_index.md") %}
+{% if paper.pages | length > 0 %}
+  <h3 class="section-subtitle">Paper Reading 📄</h2>
+  <ul class="title-list">
+    {% for page in paper.pages %}
+      <li>
+        <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{# -- Notes Section -- #}
+{% set notes = get_section(path="blog/notes/_index.md") %}
+{% if notes.pages | length > 0 %}
+  <h3 class="section-subtitle">Notes & Blogs 📝</h2>
+  <ul class="title-list">
+    {% for page in notes.pages %}
+      <li>
+        <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock content %}
