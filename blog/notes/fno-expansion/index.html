@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta name="robots" content="index, follow">
+
+
+
+
+
+
+
+
+
+
+
+
+<title>Fourier Neural Operator Expansion</title>
+
+
+
+<meta name="title" content="Fourier Neural Operator Expansion">
+
+
+
+<meta name="description" content="Shuxin&#x27;s personal website.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shuxinqiao.github.io/blog/notes/fno-expansion/">
+
+<meta property="og:site_name" content="Shuxin Qiao">
+
+
+<meta property="og:title" content="Fourier Neural Operator Expansion">
+
+
+<meta property="og:description" content="Shuxin&#x27;s personal website.">
+
+
+
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://shuxinqiao.github.io/blog/notes/fno-expansion/">
+
+<meta property="twitter:title" content="Fourier Neural Operator Expansion">
+
+
+<meta property="twitter:description" content="Shuxin&#x27;s personal website.">
+
+
+
+<link rel="canonical" href="https://shuxinqiao.github.io/blog/notes/fno-expansion/">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://speyll.github.io/suCSS/reset-min.css"/>
+<link rel="stylesheet" type="text/css" href="https://speyll.github.io/suCSS/suCSS-min.css"/>
+<link rel="stylesheet" type="text/css" href="https://shuxinqiao.github.io/css/style.css"/>
+
+<script src="https://shuxinqiao.github.io/js/script.js" defer></script>
+
+
+
+<!-- MathJax configuration -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'no-mathjax',
+    processHtmlClass: 'mathjax'
+  }
+};
+</script>
+
+<!-- MathJax script -->
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+</head>
+<body>
+      <header>
+          
+
+  
+
+
+  <nav id="nav-bar">
+    
+      <a href="&#x2F;" class="">
+        
+        &#x2F;home&#x2F;
+      </a>
+    
+      <a href="&#x2F;blog" class="">
+        
+        &#x2F;blog&#x2F;
+      </a>
+    
+    <div>
+      <input type="checkbox" id="theme-toggle" style="display: none;">
+      <label for="theme-toggle" id="theme-toggle-label"><svg id="theme-icon" class="icons"><use href="https://shuxinqiao.github.io/icons.svg#lightMode"></use></svg></label>
+      <audio id="theme-sound">
+        <source src="https://shuxinqiao.github.io/click.ogg" type="audio/ogg">
+      </audio>
+    </div>
+  </nav>
+
+
+      </header>
+      <main>
+          
+<div><a href="..">..</a>/<span class="accent-data">fno-expansion</span></div>
+<time datetime="2024-06-20">Published on: <span class="accent-data">2024-06-20</span></time>
+
+<h1>Fourier Neural Operator Expansion</h1>
+
+
+
+<h2 id="related-links">Related Links</h2>
+<ul>
+<li><a href="https://zongyi-li.github.io/">Author's Github.io</a> </li>
+<li><a href="https://arxiv.org/abs/2010.08895">Orignial Paper Arxiv</a></li>
+</ul>
+<h2 id="4d-expansion-time">4D Expansion (Time)</h2>
+<p>Since using <strong>Fourier Transform</strong> (<em>Fast Fourier Transform (FFT)</em> in implementation level), FNO is naturally able to deal with both space-domain and time-domain information.</p>
+<p>By simply adding one more dimensions into <strong>Einsum</strong> (Einstein Summation Convention), it expands to a fixed Time-Space 4D structure.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># 3D with x,y,z
+</span><span>torch.</span><span style="color:#bf616a;">einsum</span><span>(&quot;</span><span style="color:#a3be8c;">bixyz,ioxyz-&gt;boxyz</span><span>&quot;, </span><span style="color:#96b5b4;">input</span><span>, weights)
+</span><span>
+</span><span style="color:#65737e;"># into 4D with x,y,z,t
+</span><span>torch.</span><span style="color:#bf616a;">einsum</span><span>(&quot;</span><span style="color:#a3be8c;">bixyzt,ioxyzt-&gt;boxyzt</span><span>&quot;, </span><span style="color:#96b5b4;">input</span><span>, weights)
+</span></code></pre>
+<p> </p>
+<p>Noticably, the weight parameter amount is <em>multiplication</em> relation to both <strong>modes</strong> and <strong>dimensions</strong>.</p>
+<p>Here is an example:</p>
+<table><thead><tr><th>Modes</th><th style="text-align: center">Dimensions</th><th style="text-align: right">Parameter Amount</th></tr></thead><tbody>
+<tr><td>[12,30,30]</td><td style="text-align: center">3</td><td style="text-align: right">12x30x30 = 10,800</td></tr>
+<tr><td>[5,12,30,30]</td><td style="text-align: center">4</td><td style="text-align: right">5x12x30x30 = 54,000</td></tr>
+<tr><td>[5,6,15,15]</td><td style="text-align: center">4</td><td style="text-align: right">5x6x15x15 = 6,750</td></tr>
+</tbody></table>
+<p> </p>
+<p>FNO's ability is hidding inside <strong>extracted wavelets</strong>, it makes modes the most important hyperparameter to a FNO model.
+Other hyperparameters like <em>number of layers</em>, <em>whether use residual connections</em> and etc are incompetitive compare to modes.</p>
+<p>Finding balance in a sufficient and efficient number of modes with available computation resources is a great question.</p>
+<p>If modes appeared to be more important in the task or variant time steps is desired, please consider RNN, LSTM, Structured State Space or other time-series structure.</p>
+
+
+<p class="tags-data">
+  
+</p>
+
+      </main>
+      <footer>
+          <hr>
+<div id="footer-container">
+  
+  <div>
+    <p>Theme and color theme licensed under <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Licence_MIT">MIT</a>.<br>
+      Built with <a target="_blank" rel="noopener noreferrer" href="https://www.getzola.org">Zola</a> using <a target="_blank" rel="noopener noreferrer" href="https://github.com/Speyll/anemone">anemone</a> theme, <a target="_blank" rel="noopener noreferrer" href="https://speyll.github.io/suCSS/">suCSS</a> framework &amp; <a target="_blank" rel="noopener noreferrer" href="https://github.com/Speyll/veqev">veqev</a>.<br>
+    </p>
+
+  </div>
+  
+</div>
+
+      </footer>
+</body>
+</html>

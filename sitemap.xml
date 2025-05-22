@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://shuxinqiao.github.io/</loc>
+    </url>
+    <url>
+        <loc>https://shuxinqiao.github.io/blog/</loc>
+    </url>
+    <url>
+        <loc>https://shuxinqiao.github.io/blog/notes/</loc>
+    </url>
+    <url>
+        <loc>https://shuxinqiao.github.io/blog/notes/fno-expansion/</loc>
+        <lastmod>2024-06-20</lastmod>
+    </url>
+    <url>
+        <loc>https://shuxinqiao.github.io/blog/paper/</loc>
+    </url>
+    <url>
+        <loc>https://shuxinqiao.github.io/blog/paper/spectral-bias/</loc>
+        <lastmod>2025-05-21</lastmod>
+    </url>
+</urlset>
