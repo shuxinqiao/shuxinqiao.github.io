@@ -11,10 +11,13 @@ Interests in Deep Learning \ Data Science \ Ai4Science
 
 {{ profile_img(path="/ShuxinQiao.JPG", width=400, height=450, op="fit") }}
 
-
 ## Current Role
+**Analyst (Analytics & Machine Learning)** \
+Singapore LNG Corporation Pte Ltd, Singapore. 2025 - Now
+
+## Previous Role
 **Research Assistant and Software Developer** \
-GeoCloud Research Group, Civil & Environmental Engineering Dept., University of Alberta.
+GeoCloud Research Group, Civil & Environmental Engineering Dept., University of Alberta. 2024 - 2025
 
 ***
 
