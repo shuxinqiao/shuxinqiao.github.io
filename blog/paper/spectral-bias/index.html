@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta name="robots" content="index, follow">
+
+
+
+
+
+
+
+
+
+
+
+
+<title>Why Frequency Matters in Neural Networks - &quot;On the Spectral Bias of Neural Networks&quot; [ICML 2019]</title>
+
+
+
+<meta name="title" content="Why Frequency Matters in Neural Networks - &quot;On the Spectral Bias of Neural Networks&quot; [ICML 2019]">
+
+
+
+<meta name="description" content="Shuxin&#x27;s personal website.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shuxinqiao.github.io/blog/paper/spectral-bias/">
+
+<meta property="og:site_name" content="Shuxin Qiao">
+
+
+<meta property="og:title" content="Why Frequency Matters in Neural Networks - &quot;On the Spectral Bias of Neural Networks&quot; [ICML 2019]">
+
+
+<meta property="og:description" content="Shuxin&#x27;s personal website.">
+
+
+
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://shuxinqiao.github.io/blog/paper/spectral-bias/">
+
+<meta property="twitter:title" content="Why Frequency Matters in Neural Networks - &quot;On the Spectral Bias of Neural Networks&quot; [ICML 2019]">
+
+
+<meta property="twitter:description" content="Shuxin&#x27;s personal website.">
+
+
+
+<link rel="canonical" href="https://shuxinqiao.github.io/blog/paper/spectral-bias/">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://speyll.github.io/suCSS/reset-min.css"/>
+<link rel="stylesheet" type="text/css" href="https://speyll.github.io/suCSS/suCSS-min.css"/>
+<link rel="stylesheet" type="text/css" href="https://shuxinqiao.github.io/css/style.css"/>
+
+<script src="https://shuxinqiao.github.io/js/script.js" defer></script>
+
+
+
+<!-- MathJax configuration -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    ignoreHtmlClass: 'no-mathjax',
+    processHtmlClass: 'mathjax'
+  }
+};
+</script>
+
+<!-- MathJax script -->
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+</head>
+<body>
+      <header>
+          
+
+  
+
+
+  <nav id="nav-bar">
+    
+      <a href="&#x2F;" class="">
+        
+        &#x2F;home&#x2F;
+      </a>
+    
+      <a href="&#x2F;blog" class="">
+        
+        &#x2F;blog&#x2F;
+      </a>
+    
+    <div>
+      <input type="checkbox" id="theme-toggle" style="display: none;">
+      <label for="theme-toggle" id="theme-toggle-label"><svg id="theme-icon" class="icons"><use href="https://shuxinqiao.github.io/icons.svg#lightMode"></use></svg></label>
+      <audio id="theme-sound">
+        <source src="https://shuxinqiao.github.io/click.ogg" type="audio/ogg">
+      </audio>
+    </div>
+  </nav>
+
+
+      </header>
+      <main>
+          
+<div><a href="..">..</a>/<span class="accent-data">spectral-bias</span></div>
+<time datetime="2025-05-21">Published on: <span class="accent-data">2025-05-21</span></time>
+
+<h1>Why Frequency Matters in Neural Networks - &quot;On the Spectral Bias of Neural Networks&quot; [ICML 2019]</h1>
+
+
+
+<h2 id="related-links">Related Links</h2>
+<ul>
+<li><a href="https://nasimrahaman.super.site/">Author's Web</a> </li>
+<li><a href="https://proceedings.mlr.press/v97/rahaman19a.html">Orignial Paper PMLR</a></li>
+</ul>
+<h2 id="about-author">About Author</h2>
+<p>Nasim Rahaman pursued his PhD jointly at the Max Planck Institute for Intelligent Systems (MPI-IS) in Tübingen, Germany, and Mila – Quebec AI Institute in Montreal, Canada.</p>
+<ul>
+<li>At MPI-IS: He was part of the Empirical Inference Group, supervised by Bernhard Schölkopf.</li>
+<li>At Mila: He was co-supervised by Yoshua Bengio.</li>
+</ul>
+<h2 id="abstract">Abstract</h2>
+<p>Neural Networks are a class of highly expressive functions that are able to <strong>fit even random input-output mapping with 100% accuracy</strong>.</p>
+<p>By using <strong>Fourier Analysis</strong>, they showed network learning bias towards <strong>low-frequency functions</strong>, termed as <em><strong>&quot;Spectral Bias&quot;</strong></em>, this property aligns the observation that over-parameterized networks prioritize learning simple patterns that generalize across data samples.</p>
+<blockquote>
+<p>This is a very mathmatical paper, if you are interested in seeing proof or demostration in detail, please check back to original paper.<br />
+I will briefly mention math parts in a more abstract view.</p>
+</blockquote>
+<h2 id="2-fourier-analysis-of-relu-networks">2. Fourier Analysis of ReLU Networks</h2>
+<p>They call &quot;ReLU Network&quot; a scalar function $f: \mathbb{R}^d \rightarrow \mathbb{R}$, which takes a series of input data $x$ into a regression value $y$.</p>
+<p>ReLU networks are known to be continuous piece-wise linear (CPWL) functions<sup class="footnote-reference"><a href="#1">1</a></sup>, in reverse, every CPWL function can be represented by a ReLU network.</p>
+<p>So we can make the piecewise linearity explicit by writing: </p>
+<p>$$f(x) = \sum_{\phi} 1_{P_\phi}(x) (W_\phi x + b_\phi)$$</p>
+<p>where $\phi$ is a neuron and $1_{P_\phi}$ is dead neuron indicator.</p>
+<p>They further provide:</p>
+<ul>
+<li><em>Lemma 1</em>: how ReLU network can be decomposed by Fourier transform. </li>
+<li><em>Lemma 2</em>: the decay rate of the Fourier transform is direction-dependent, influenced by the structure of the polytopes<sup class="footnote-reference"><a href="#2">2</a></sup>.</li>
+<li><em>Theorem 1</em>: network overall spectral decay rate differs by directions, mostly $\frac{1}{||k||^{-(d+1)}}$ with occasitional $\frac{1}{||k||^{-2}}$ in orthogonal direction.</li>
+</ul>
+<p>So ReLU network has <strong>anisotropic spectrum</strong> and is weak on high-frequency response. Even without considering training process, ReLU naturally prefers low-frequency once initialized.</p>
+<p>During training phase, gradiant majorly tuned by higher amplitute components in spectrum which are low-frequencies, both structure itself and training process focus on higher dynamics at begining.</p>
+<p><em><strong>Footnotes:</strong></em></p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>The whole function is continuous but divided in many areas, each area is linear inside itself, its ability is expressed by how dense the division are.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>The cluttered areas compose as a polytope in a high-dimension space. (Imagine multi-faces approximated ball object in 3D space)</p>
+</div>
+<h2 id="3-lower-frequencies-are-learned-first">3. Lower Frequencies are Learned First</h2>
+<p>To answer questions: </p>
+<ol>
+<li>Do NNs really learn lower frequencies first then higher ones during training?</li>
+<li>Is &quot;Spectral Bias&quot; a general phenomenon?</li>
+<li>Does any of Sturcture, Optimizer, Training data and Objective Funtion has influence on this trend?</li>
+</ol>
+<p>They designed 4 experiments:</p>
+<ol>
+<li>Sine wave decomposition</li>
+<li>Adding perturbation on random parameters on converged model</li>
+<li>Adding noise into MNIST dataset</li>
+<li>High-dimensional manifold fitting different functions</li>
+</ol>
+<h4 id="experiment-1">Experiment 1</h4>
+<p>They set a 1D Sine wave function: </p>
+<p>$$f(x) = \sum_{i} A_{i} \sin(2 \pi k_i x + \phi_i)$$</p>
+<p>and use a fully-connected ReLU network to fit it, then display normalized magnitudes of each frequency as following figure 1:</p>
+<p><img src="/paper/2025-05-21/figure1.png" alt="Figure 1" /></p>
+<p>No matter on equal amplitude or increasing with frequency, network all showed clearly low-frequency learning tendency.</p>
+<p>This can also be viewed in following figure 2 on how gradually network learns curve:</p>
+<p><img src="/paper/2025-05-21/figure2.png" alt="Figure 2" /></p>
+<h4 id="experiment-2">Experiment 2</h4>
+<p>Follows the experiment 1, they add random noises to converged parameters and see their influences on different frequencies as figure 3:</p>
+<p><img src="/paper/2025-05-21/figure3.png" alt="Figure 3" /></p>
+<p>where network shows great robustness on lower freqencies than higher ones.</p>
+<h4 id="experiment-3">Experiment 3</h4>
+<p>They tested 4 different scenarios: </p>
+<ol>
+<li>low-freq with different amplitudes</li>
+<li>high-freq with different amplitudes</li>
+<li>low amplitudes with different freq</li>
+<li>high amplitudes with different freq</li>
+</ol>
+<p>The results are shown as following figure 4:</p>
+<p><img src="/paper/2025-05-21/figure4.png" alt="Figure 4" /></p>
+<p>When applying low-freq noises, it almost immediatedly affect the validation results, but applying high-freq noises the loss will drop first then back to similar scalar point as adding low-freq noises.</p>
+<p>This actually shows us model is learning lower frequencies at begining and will try to fit high parts gradually.</p>
+<p>Part c and d just further proved that by showing different dip depth of loss by lower vs. higher frequency noises.</p>
+<h4 id="experiment-4">Experiment 4</h4>
+<p><img src="/paper/2025-05-21/figure5.png" alt="Figure 5" /></p>
+<h2 id="4-not-all-manifolds-are-learned-equal">4. Not all Manifolds are Learned Equal</h2>
+<p>Question: How Spectral Bias changes when the data lies on a lower dimensional manifold<sup class="footnote-reference"><a href="#3">3</a></sup> embedded in the higher dimensional input space of the model.</p>
+<p>If we define a mapping: $\gamma: z \in [0,1] \rightarrow x \in \mathbb{R}^2$ such as $\gamma(z) = (z, z^2)$, and a target function: $\lambda(z) = \sin(2 \pi k z)$.</p>
+<p>So imagine the target function for network to fit becomes: </p>
+<p>$$f(x) = \lambda(\gamma^{-1}(x)) = \sin(2 \pi k z), with \space x = \gamma(z)$$</p>
+<p>which means high-frequency occurs on space $z$ but it performs like low-frequency after projecting on input space $x$.</p>
+<p>As they sample points from the curve by 2D coordinates on space $x \in \mathbb{R}^2$, to see if network can fitting target $\lambda(z)$.</p>
+<p>They did 2 experiments on this problem and got following figure 6, 7 and 8:</p>
+<p><img src="/paper/2025-05-21/figure6.png" alt="Figure 6" /></p>
+<p><img src="/paper/2025-05-21/figure7.png" alt="Figure 7" /></p>
+<p><img src="/paper/2025-05-21/figure8.png" alt="Figure 8" /></p>
+<p>That shows several key points:</p>
+<ol>
+<li>If we embed a high-frequency function into high-dimension space, it could behavors more like &quot;low-frequency&quot;.</li>
+<li>In input space, function is not oscillating strongly, from that space, it becomes more &quot;smooth&quot;.</li>
+<li>Since &quot;Spectral Bias&quot;, network learns better on that low-frequency inputs.</li>
+</ol>
+<p>What do those points tell us?</p>
+<ol>
+<li><strong>Frequency is relative defined on relative path rather coordinate system.</strong><br />
+A high-frequency manifold in low-dimension space could be low-frequency in high-dimension space.</li>
+<li><strong>Frequency can be compressed or stretched by embedding mapping.</strong><br />
+Imagine $\frac{d}{dz} f(\lambda(z)) = \triangledown_{x} f(x) \cdot \frac{d \lambda}{dz}$, if $\gamma(z)$ changes fast (equal to $\frac{d \lambda}{dz}$ changes fast), $\triangledown_{x} f(x)$ will need to be less fast / become low-frequency.</li>
+<li><strong>Generalization ability will be affected by manifold.</strong><br />
+If we constraint training data on some low-dimension manifold, network will easier to capture patterns and thus brings training efficiency and generalization ability.</li>
+</ol>
+<blockquote>
+<p>Imagine drawing a curvy line (like sine wave) using your hand by a pen, if the pen shakes given your hand position $z$ fast, even your hand are moving in low-freqency mode, the final line you draw would be a very high-frequency function.</p>
+</blockquote>
+<p><em><strong>Footnotes:</strong></em></p>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>A geometry structure that defines object, it is used to describe higher-dimension inputs can be governed by lower dimension features. e.g. a 2D circle can be described by many (x,y) points on 2D plane, but not all points from (x0,y0) to (xn,yn) are useful to describe such a circle. At this time, a center point and a radius number somehow sufficient to represent every possible points on circle, it is a lower dimension space which says manifold cycle embeds in 2D space.</p>
+</div>
+
+
+<p class="tags-data">
+  
+</p>
+
+      </main>
+      <footer>
+          <hr>
+<div id="footer-container">
+  
+  <div>
+    <p>Theme and color theme licensed under <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Licence_MIT">MIT</a>.<br>
+      Built with <a target="_blank" rel="noopener noreferrer" href="https://www.getzola.org">Zola</a> using <a target="_blank" rel="noopener noreferrer" href="https://github.com/Speyll/anemone">anemone</a> theme, <a target="_blank" rel="noopener noreferrer" href="https://speyll.github.io/suCSS/">suCSS</a> framework &amp; <a target="_blank" rel="noopener noreferrer" href="https://github.com/Speyll/veqev">veqev</a>.<br>
+    </p>
+
+  </div>
+  
+</div>
+
+      </footer>
+</body>
+</html>
