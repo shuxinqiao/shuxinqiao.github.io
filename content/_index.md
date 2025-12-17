@@ -5,7 +5,7 @@
 
 Interests in Deep Learning \ Data Science \ Ai4Science
 
-[Google Scholar](https://scholar.google.com/citations?user=GI0ozDIAAAAJ&hl=en) \\
+[Google Scholar](https://scholar.google.com/citations?user=CtlHjwgAAAAJ&hl=en) \\
 [Linkedin](https://ca.linkedin.com/in/shuxinqiao) \\
 [Github](https://github.com/shuxinqiao)
 
