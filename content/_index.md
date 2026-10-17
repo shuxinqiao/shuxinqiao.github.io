@@ -5,9 +5,7 @@
 
 *Applied Machine Learning · Intelligent Systems · Software Engineering*
 
-[Google Scholar](https://scholar.google.com/citations?user=CtlHjwgAAAAJ&hl=en) \
-[LinkedIn](https://www.linkedin.com/in/shuxinqiao/) \
-[GitHub](https://github.com/shuxinqiao)
+[Google Scholar](https://scholar.google.com/citations?user=CtlHjwgAAAAJ&hl=en) / [LinkedIn](https://www.linkedin.com/in/shuxinqiao/) / [GitHub](https://github.com/shuxinqiao)
 
 {{ profile_img(path="/ShuxinQiao.JPG", width=400, height=450, op="fit") }}
 
@@ -27,18 +25,30 @@ Outside my professional work, I enjoy experimenting with reinforcement learning,
 
 ## Experience
 
-- **Analyst (Analytics & Machine Learning)**
-  Singapore LNG Corporation Pte Ltd · Singapore · Sep 2025 – Present
+<p>
+  <strong>Analyst (Analytics &amp; Machine Learning)</strong>
+  <span style="display: block; font-size: 0.92em; opacity: 0.8; margin-top: 0.15rem;">
+    Singapore LNG Corporation Pte Ltd / Singapore / Sep 2025 – Present
+  </span>
+</p>
 
-- **Research Assistant and Software Developer**
-  GeoResourceCloud Research Group, Department of Civil and Environmental Engineering, University of Alberta · Edmonton, Canada · Feb 2024 – Sep 2025
+<p>
+  <strong>Research Assistant and Software Developer</strong>
+  <span style="display: block; font-size: 0.92em; opacity: 0.8; margin-top: 0.15rem;">
+    GeoResourceCloud Research Group, Department of Civil and Environmental Engineering, University of Alberta / Edmonton, Canada / Feb 2024 – Sep 2025
+  </span>
+</p>
 
 ---
 
 ## Education
 
-- **Bachelor of Science, Statistics & Computing Science**
-  University of Alberta · Edmonton, Canada · 2018 – 2022
+<p>
+  <strong>Bachelor of Science, Statistics &amp; Computing Science</strong>
+  <span style="display: block; font-size: 0.92em; opacity: 0.8; margin-top: 0.15rem;">
+    University of Alberta / Edmonton, Canada / 2018 – 2022
+  </span>
+</p>
 
 ---
 
